@@ -1,0 +1,44 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # for app communication
+      - "15672:15672" # for management UI
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mini-insta-network
+  user-mongo-alt:
+    image: mongo
+    container_name: user-mongo-alt
+    ports:
+      - "27017:27017"
+    volumes:
+      - user-data:/data/db # Persist MongoDB data in this volume
+    networks:
+      - mini-insta-network
+  user-service-alt:
+    build: ./
+    container_name: user-service-alt
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb://user-mongo-alt:27017/userdb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      user-mongo-alt:
+        condition: service_started
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    external: true
+volumes:
+  user-data: # Define the volume for user mongo

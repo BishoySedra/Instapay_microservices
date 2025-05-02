@@ -1,0 +1,28 @@
+services:
+  notification-mongo-alt:
+    image: mongo
+    container_name: notification-mongo-alt
+    ports:
+      - "27020:27017"
+    volumes:
+      - notification-data:/data/db # Persist MongoDB data in this volume
+    networks:
+      - mini-insta-network
+  notification-service-alt:
+    build: ./
+    container_name: notification-service-alt
+    ports:
+      - "3004:3004"
+    environment:
+      - MONGO_URI=mongodb://notification-mongo-alt:27017/notificationdb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - notification-mongo-alt
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    external: true
+volumes:
+  notification-data: # Define the volume for transaction mongo

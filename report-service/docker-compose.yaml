@@ -1,0 +1,28 @@
+services:
+  report-mongo-alt:
+    image: mongo
+    container_name: report-mongo-alt
+    ports:
+      - "27019:27017"
+    volumes:
+      - report-data:/data/db # Persist MongoDB data in this volume
+    networks:
+      - mini-insta-network
+  report-service-alt:
+    build: ./
+    container_name: report-service-alt
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URI=mongodb://report-mongo-alt:27017/reportdb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - report-mongo-alt
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    external: true
+volumes:
+  report-data: # Define the volume for transaction mongo

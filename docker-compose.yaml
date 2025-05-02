@@ -1,0 +1,91 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # for app communication
+      - "15672:15672" # for management UI
+    networks:
+      - mini-insta-network
+
+  user-mongo:
+    image: mongo
+    container_name: user-mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mini-insta-network
+
+  transaction-mongo:
+    image: mongo
+    container_name: transaction-mongo
+    ports:
+      - "27018:27017"
+    networks:
+      - mini-insta-network
+
+  report-mongo:
+    image: mongo
+    container_name: report-mongo
+    ports:
+      - "27019:27017"
+    networks:
+      - mini-insta-network
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb://user-mongo:27017/userdb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+      - user-mongo
+    networks:
+      - mini-insta-network
+
+  transaction-service:
+    build: ./transaction-service
+    container_name: transaction-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGO_URI=mongodb://transaction-mongo:27017/transactiondb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+      - transaction-mongo
+    networks:
+      - mini-insta-network
+
+  report-service:
+    build: ./report-service
+    container_name: report-service
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URI=mongodb://report-mongo:27017/reportdb
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+      - report-mongo
+    networks:
+      - mini-insta-network
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    ports:
+      - "3004:3004"
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    driver: bridge

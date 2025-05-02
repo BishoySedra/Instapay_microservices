@@ -1,0 +1,22 @@
+Signup, Login
+User View Balance
+User Send Money
+User View Transaction History
+User Get Notification (Alert)
+Admin generates reports (monthly transaction summary)
+
+Microservices:
+User - Transaction - Reporting - Notification
+
+RabbitMQ for services communication.
+
+User Table: id, email, password, balance, createdAt
+
+Transaction: id, senderId, receiverId, amount, timestamp, status
+
+Report: May connect to read-only replicas or pull data via APIs
+
+Notification: No database needed and can trigger from events.
+
+Define 3 environments (dev, staging, prod)
+Deploy with kubernetes later.

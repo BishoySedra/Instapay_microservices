@@ -1,0 +1,30 @@
+services:
+  transaction-mongo-alt:
+    image: mongo
+    container_name: transaction-mongo-alt
+    ports:
+      - "27018:27017"
+    volumes:
+      - transaction-data:/data/db # Persist MongoDB data in this volume
+    networks:
+      - mini-insta-network
+  transaction-service-alt:
+    build: ./
+    container_name: transaction-service-alt
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGO_URI=mongodb://transaction-mongo-alt:27017/transactiondb
+      - RABBITMQ_URL=amqp://rabbitmq
+      - JWT_SECRET=your_jwt_secret_key
+
+    depends_on:
+      - transaction-mongo-alt
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    external: true
+volumes:
+  transaction-data: # Define the volume for transaction mongo
