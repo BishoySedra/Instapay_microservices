@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/app.js",
+    "dev": "nodemon --legacy-watch src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,8 +16,9 @@
     "amqplib": "^0.10.7",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
-    "jsonwebtoken": "^9.0.2",
     "express": "^5.1.0",
-    "mongoose": "^8.14.0"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.0",
+    "nodemon": "^3.1.10"
   }
 }

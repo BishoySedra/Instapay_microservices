@@ -29,6 +29,9 @@ services:
     environment:
       - MONGO_URI=mongodb://user-mongo-alt:27017/userdb
       - RABBITMQ_URL=amqp://rabbitmq
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent overwriting node_modules
     depends_on:
       rabbitmq:
         condition: service_healthy

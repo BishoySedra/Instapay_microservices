@@ -17,7 +17,9 @@ services:
       - MONGO_URI=mongodb://transaction-mongo-alt:27017/transactiondb
       - RABBITMQ_URL=amqp://rabbitmq
       - JWT_SECRET=your_jwt_secret_key
-
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent overwriting node_modules
     depends_on:
       - transaction-mongo-alt
     networks:

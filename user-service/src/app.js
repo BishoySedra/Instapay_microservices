@@ -42,6 +42,7 @@ const start = async () => {
     console.log('helll 1')
     console.log(process.env.MONGO_URI);
     console.log('helll 2')
+    console.log('ELHAMDULLAHHH');
     await mongoose.connect(process.env.MONGO_URI, {
       // These options may not be needed with newer Mongoose versions but included for compatibility
       serverSelectionTimeoutMS: 5000,

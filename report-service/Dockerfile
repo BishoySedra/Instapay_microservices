@@ -1,6 +1,8 @@
 # Stage 1: Build dependencies
 FROM node:22-alpine
 
+RUN npm install -g nodemon
+
 # Set working directory
 WORKDIR /app
 
@@ -15,4 +17,4 @@ COPY . .
 EXPOSE 3003
 
 # Run app
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]

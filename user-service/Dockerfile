@@ -2,6 +2,7 @@
 FROM node:22-alpine
 
 # RUN npm install -g nodemon
+RUN npm install -g nodemon
 
 # Set working directory
 WORKDIR /app
@@ -17,4 +18,4 @@ COPY . .
 EXPOSE 3001
 
 # Run app
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]

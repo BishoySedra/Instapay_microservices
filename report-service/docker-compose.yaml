@@ -16,6 +16,9 @@ services:
     environment:
       - MONGO_URI=mongodb://report-mongo-alt:27017/reportdb
       - RABBITMQ_URL=amqp://rabbitmq
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent overwriting node_modules
     depends_on:
       - report-mongo-alt
     networks:
