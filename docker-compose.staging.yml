@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    ports:
+      - "15672:15672" # Management UI for monitoring
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+
+  user-mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+
+  transaction-mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+
+  report-mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+
+  notification-mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+
+  user-service:
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=staging
+      - LOG_LEVEL=info
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.2"
+          memory: 256M
+
+  transaction-service:
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=staging
+      - LOG_LEVEL=info
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.2"
+          memory: 256M
+
+  report-service:
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=staging
+      - LOG_LEVEL=info
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.2"
+          memory: 256M
+
+  notification-service:
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=staging
+      - LOG_LEVEL=info
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.2"
+          memory: 256M

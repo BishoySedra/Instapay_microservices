@@ -1,0 +1,128 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - mini-insta-network
+
+  user-mongo:
+    image: mongo:6.0
+    volumes:
+      - user-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mini-insta-network
+
+  transaction-mongo:
+    image: mongo:6.0
+    volumes:
+      - transaction-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mini-insta-network
+
+  report-mongo:
+    image: mongo:6.0
+    volumes:
+      - report-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mini-insta-network
+
+  notification-mongo:
+    image: mongo:6.0
+    volumes:
+      - notification-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mini-insta-network
+
+  user-service:
+    build: ./user-service
+    environment:
+      - MONGO_URI=${MONGO_URI_USER}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - PORT=3001
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      user-mongo:
+        condition: service_started
+    networks:
+      - mini-insta-network
+
+  transaction-service:
+    build: ./transaction-service
+    environment:
+      - MONGO_URI=${MONGO_URI_TRANSACTION}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=3002
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      transaction-mongo:
+        condition: service_started
+    networks:
+      - mini-insta-network
+
+  report-service:
+    build: ./report-service
+    environment:
+      - MONGO_URI=${MONGO_URI_REPORT}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - PORT=3003
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      report-mongo:
+        condition: service_started
+    networks:
+      - mini-insta-network
+
+  notification-service:
+    build: ./notification-service
+    environment:
+      - MONGO_URI=${MONGO_URI_NOTIFICATION}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - PORT=3004
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      notification-mongo:
+        condition: service_started
+    networks:
+      - mini-insta-network
+
+networks:
+  mini-insta-network:
+    driver: bridge
+
+volumes:
+  user-data:
+  transaction-data:
+  report-data:
+  notification-data:
