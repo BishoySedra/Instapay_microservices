@@ -29,6 +29,27 @@ app.use((err, req, res, next) => {
 // Connect to MongoDB
 const start = async () => {
   try {
+
+    let MONGO_URI_TRANSACTION, RabbitMQ_URI_TRANSACTION;
+    if (process.env.NODE_ENV === 'development') 
+    {
+      MONGO_URI_TRANSACTION = process.env.MONGO_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+    }
+    else if (process.env.NODE_ENV === 'staging') 
+    {
+      MONGO_URI_TRANSACTION = process.env.MONGO_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+      MONGO_URI_TRANSACTION = MONGO_URI_TRANSACTION.replace('staging_user', process.env.MONGO_USER).replace('staging_pass', process.env.MONGO_PASS);
+      RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('staging_user', process.env.RABBITMQ_USER).replace('staging_pass', process.env.RABBITMQ_PASS);
+    }
+    else if (process.env.NODE_ENV === 'production') 
+    {
+      MONGO_URI_TRANSACTION = process.env.MONGO_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+      MONGO_URI_TRANSACTION = MONGO_URI_TRANSACTION.replace('prod_user', process.env.MONGO_USER).replace('prod_pass', process.env.MONGO_PASS);
+      RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('prod_user', process.env.RABBITMQ_USER).replace('prod_pass', process.env.RABBITMQ_PASS);
+    }
     await mongoose.connect(process.env.MONGO_URI, {
       // These options may not be needed with newer Mongoose versions but included for compatibility
       serverSelectionTimeoutMS: 5000,

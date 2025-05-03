@@ -13,50 +13,50 @@ services:
       - mini-insta-network
 
   user-mongo:
-    image: mongo:6.0
+    image: mongo
     volumes:
       - user-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
     networks:
       - mini-insta-network
 
   transaction-mongo:
-    image: mongo:6.0
+    image: mongo
     volumes:
       - transaction-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
     networks:
       - mini-insta-network
 
   report-mongo:
-    image: mongo:6.0
+    image: mongo
     volumes:
       - report-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
     networks:
       - mini-insta-network
 
   notification-mongo:
-    image: mongo:6.0
+    image: mongo
     volumes:
       - notification-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
     networks:
       - mini-insta-network
 
@@ -66,6 +66,7 @@ services:
       - MONGO_URI=${MONGO_URI_USER}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - PORT=3001
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       rabbitmq:
         condition: service_healthy

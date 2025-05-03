@@ -9,10 +9,10 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 256M
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   user-mongo:
     environment:
@@ -22,10 +22,10 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 256M
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   transaction-mongo:
     environment:
@@ -35,10 +35,10 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 256M
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   report-mongo:
     environment:
@@ -48,10 +48,10 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 256M
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   notification-mongo:
     environment:
@@ -61,10 +61,10 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 256M
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   user-service:
     environment:
@@ -74,10 +74,10 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 512M
+          memory: 256M
         reservations:
           cpus: "0.2"
-          memory: 256M
+          memory: 128M
       replicas: 2
 
   transaction-service:
@@ -88,10 +88,10 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 512M
+          memory: 256M
         reservations:
           cpus: "0.2"
-          memory: 256M
+          memory: 128M
       replicas: 2
 
   report-service:
@@ -102,10 +102,10 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 512M
+          memory: 256M
         reservations:
           cpus: "0.2"
-          memory: 256M
+          memory: 128M
       replicas: 2
 
   notification-service:
