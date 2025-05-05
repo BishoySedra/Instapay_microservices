@@ -34,28 +34,30 @@ const start = async () => {
     if (process.env.NODE_ENV === 'development') 
     {
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
-      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URL;
     }
     else if (process.env.NODE_ENV === 'staging') 
     {
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
-      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URL;
       MONGO_URI_TRANSACTION = MONGO_URI_TRANSACTION.replace('staging_user', process.env.MONGO_USER).replace('staging_pass', process.env.MONGO_PASS);
       RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('staging_user', process.env.RABBITMQ_USER).replace('staging_pass', process.env.RABBITMQ_PASS);
     }
     else if (process.env.NODE_ENV === 'production') 
     {
+      console.log(process.env.MONGO_URI)
+      console.log(process.env.RABBITMQ_URL)
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
-      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URL;
       MONGO_URI_TRANSACTION = MONGO_URI_TRANSACTION.replace('prod_user', process.env.MONGO_USER).replace('prod_pass', process.env.MONGO_PASS);
-      RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('prod_user', process.env.RABBITMQ_USER).replace('prod_pass', process.env.RABBITMQ_PASS);
+      RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('prod_user', process.env.RABBITMQ_USER || 'guest').replace('prod_pass', process.env.RABBITMQ_PASS || 'guest');
     }
     await mongoose.connect(process.env.MONGO_URI, {
       // These options may not be needed with newer Mongoose versions but included for compatibility
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
-    await connectRabbitMQ();
+    await connectRabbitMQ(RabbitMQ_URI_TRANSACTION);
     await listenToEvents();
     const PORT = process.env.PORT || 3002;
     app.listen(PORT, () => console.log(`Transaction Service running on port ${PORT}`));

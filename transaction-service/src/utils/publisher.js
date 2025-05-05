@@ -2,9 +2,9 @@ const amqp = require('amqplib');
 const transactionService = require('../services/transaction');
 let channel;
 
-const connectRabbitMQ = async () => {
-  console.log(process.env.RABBITMQ_URL)
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
+const connectRabbitMQ = async (url) => {
+  console.log(url)
+  const connection = await amqp.connect(url);
   channel = await connection.createChannel();
   console.log('channel created')
   await channel.assertExchange('transactions_exchange', 'fanout', { durable: true });

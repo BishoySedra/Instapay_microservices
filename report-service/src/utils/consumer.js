@@ -1,8 +1,8 @@
 const amqp = require('amqplib');
 const Report = require('../models/Report');
 
-const connectRabbitMQ = async () => {
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
+const connectRabbitMQ = async (url) => {
+  const connection = await amqp.connect(url);
   const channel = await connection.createChannel();
   await channel.assertExchange('transactions_exchange', 'fanout', { durable: true });
   console.log('Connected to RabbitMQ - Reporting Service');

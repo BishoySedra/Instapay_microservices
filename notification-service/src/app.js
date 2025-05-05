@@ -17,28 +17,28 @@ const start = async () => {
     if (process.env.NODE_ENV === 'development') 
     {
       MONGO_URI_NOTIFICATION = process.env.MONGO_URI;
-      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URL;
     }
     else if (process.env.NODE_ENV === 'staging') 
     {
       MONGO_URI_NOTIFICATION = process.env.MONGO_URI;
-      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URL;
       MONGO_URI_NOTIFICATION = MONGO_URI_NOTIFICATION.replace('staging_user', process.env.MONGO_USER).replace('staging_pass', process.env.MONGO_PASS);
-      RabbitMQ_URI_NOTIFICATION = RabbitMQ_URI_NOTIFICATION.replace('staging_user', process.env.RABBITMQ_USER).replace('staging_pass', process.env.RABBITMQ_PASS);
+      RabbitMQ_URI_NOTIFICATION = RabbitMQ_URI_NOTIFICATION.replace('staging_user', process.env.RABBITMQ_USER || 'guest').replace('staging_pass', process.env.RABBITMQ_PASS || 'guest');
     }
     else if (process.env.NODE_ENV === 'production') 
     {
       MONGO_URI_NOTIFICATION = process.env.MONGO_URI;
-      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_NOTIFICATION = process.env.RABBITMQ_URL;
       MONGO_URI_NOTIFICATION = MONGO_URI_NOTIFICATION.replace('prod_user', process.env.MONGO_USER).replace('prod_pass', process.env.MONGO_PASS);
-      RabbitMQ_URI_NOTIFICATION = RabbitMQ_URI_NOTIFICATION.replace('prod_user', process.env.RABBITMQ_USER).replace('prod_pass', process.env.RABBITMQ_PASS);
+      RabbitMQ_URI_NOTIFICATION = RabbitMQ_URI_NOTIFICATION.replace('prod_user', process.env.RABBITMQ_USER || 'guest').replace('prod_pass', process.env.RABBITMQ_PASS || 'guest');
     }
     await mongoose.connect(process.env.MONGO_URI, {
           // These options may not be needed with newer Mongoose versions but included for compatibility
           serverSelectionTimeoutMS: 5000,
           socketTimeoutMS: 45000,
         });
-    await connectRabbitMQ();
+    await connectRabbitMQ(RabbitMQ_URI_NOTIFICATION);
 
     const PORT = process.env.PORT || 3004;
     app.listen(PORT, () => console.log(`Notification Service on ${PORT}`));

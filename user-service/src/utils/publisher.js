@@ -5,7 +5,7 @@ let channel;
 
 const connectRabbitMQ = async (url) => {
     try {
-      // console.log(process.env.RABBITMQ_URL)
+      console.log(process.env.RABBITMQ_URL)
       const connection = await amqp.connect(url);
       channel = await connection.createChannel();
       await channel.assertExchange('transactions_exchange', 'fanout', { durable: true });

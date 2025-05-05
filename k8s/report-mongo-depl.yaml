@@ -1,0 +1,98 @@
+# Report MongoDB PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: report-mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Report MongoDB Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: report-mongo
+  labels:
+    app: report-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: report-mongo
+  template:
+    metadata:
+      labels:
+        app: report-mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          # env:
+          #   - name: MONGO_INITDB_ROOT_USERNAME
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mongo-secrets
+          #         key: mongo-user
+          #   - name: MONGO_INITDB_ROOT_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mongo-secrets
+          #         key: mongo-pass
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "300m"
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+          readinessProbe:
+            # exec:
+            #   command:
+            #     - mongosh
+            #     - --eval
+            #     - "db.adminCommand('ping')"
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            # exec:
+            #   command:
+            #     - mongosh
+            #     - --eval
+            #     - "db.adminCommand('ping')"
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 6
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: report-mongo-pvc
+---
+# Report MongoDB Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: report-mongo
+spec:
+  selector:
+    app: report-mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+---

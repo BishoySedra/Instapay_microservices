@@ -1,31 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: transaction-service
   labels:
-    app: user-service
+    app: transaction-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-service
+      app: transaction-service
   template:
     metadata:
       labels:
-        app: user-service
+        app: transaction-service
     spec:
       containers:
-        - name: user-service
-          image: mazen24862/user-service:latest
-          imagePullPolicy: Always
+        - name: transaction-service
+          image: mazen24862/transaction-service:latest
           ports:
-            - containerPort: 3001
+            - containerPort: 3002
           env:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
                   name: mongo-secrets
-                  key: mongo-uri-user
+                  key: mongo-uri-transaction
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -36,6 +35,10 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-secrets
                   key: rabbitmq-url
+            - name: NODE_ENV
+              value: production
+            - name: LOG_LEVEL
+              value: error
             # - name: MONGO_INITDB_ROOT_USERNAME
             #   valueFrom:
             #     secretKeyRef:
@@ -46,10 +49,6 @@ spec:
             #     secretKeyRef:
             #       name: mongo-secrets
             #       key: mongo-pass
-            - name: NODE_ENV
-              value: production
-            - name: LOG_LEVEL
-              value: error
           resources:
             limits:
               cpu: "200m"
@@ -61,12 +60,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: transaction-service
 spec:
   selector:
-    app: user-service
+    app: transaction-service
   ports:
     - protocol: TCP
-      port: 3001
-      targetPort: 3001
+      port: 3002
+      targetPort: 3002
   type: ClusterIP
