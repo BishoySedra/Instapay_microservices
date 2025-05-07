@@ -39,6 +39,13 @@ spec:
             name: notification-service
             port:
               number: 3004
+      - path: /client(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: client-service
+            port:
+              number: 3000
   # Add TLS configuration if needed
   # tls:
   # - hosts:
