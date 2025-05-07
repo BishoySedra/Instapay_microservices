@@ -2,8 +2,8 @@ const { publishEvent } = require('../utils/publisher');
 const transactionService = require('../services/transaction');
 
 exports.sendMoney = async (req, res) => {
-  const { senderId, receiverId, amount, description } = req.body;
-
+  const { receiverEmail, amount, description } = req.body;
+  const senderId = req.userId; // Assuming senderId is the authenticated user's ID
   if (!senderId || !receiverId || !amount) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
@@ -13,7 +13,7 @@ exports.sendMoney = async (req, res) => {
     // Step 1: Emit transfer.requested event
     publishEvent('transfer.requested', {
       senderId,
-      receiverId,
+      receiverEmail,
       amount,
       description,
       requestId: new Date().getTime(), // optional tracking
@@ -25,17 +25,6 @@ exports.sendMoney = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };  
-
-
-    // publishTransaction({
-    //     transactionId: txn._id,
-    //     senderId,
-    //     receiverId,
-    //     amount,
-    //     timestamp: txn.createdAt,
-    //   });
-      
-
 
 exports.getTransactions = async (req, res) => {
   return await transactionService.getTransactionsByUserId(req.userId);

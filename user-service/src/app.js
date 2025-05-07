@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 // const dotenv = require('dotenv').config();
+const cors = require('cors');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const { connectRabbitMQ, listenToTransferRequests }  = require('./utils/publisher'); // Import RabbitMQ connection
@@ -9,7 +10,7 @@ const { connectRabbitMQ, listenToTransferRequests }  = require('./utils/publishe
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.get('/health', (req, res) => {

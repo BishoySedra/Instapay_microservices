@@ -36,11 +36,11 @@ const listenToTransferRequests = async () => {
     console.log('Received Transaction:', event);
 
     if (event.event === 'transfer.requested') {
-      const { senderId, receiverId, amount, description } = event.data;
+      const { senderId, receiverEmail, amount, description } = event.data;
       console.log('received transfer.requested', event.data);
       try {
         const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+        const receiver = await User.find({ email: receiverEmail });
         console.log('send receive');
         if (!sender || !receiver) throw new Error('User not found');
         if (sender.balance < amount) throw new Error('Insufficient balance');
@@ -51,7 +51,7 @@ const listenToTransferRequests = async () => {
         await sender.save();
         await receiver.save();
         console.log('trans done');
-        publishEvent('transfer.completed', { senderId, receiverId, amount, description });
+        publishEvent('transfer.completed', { senderId, receiverId: receiver._id, amount, description });
         console.log('transfer.completed sent');
       } catch (err) {
         publishEvent('transfer.failed', {

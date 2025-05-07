@@ -1,13 +1,14 @@
 const express = require('express');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
+const cors = require('cors');
 const notificationRouter = require('./routes/notification');
 const mongoose = require('mongoose');
 const { connectRabbitMQ } = require('./utils/consumer');
 
-dotenv.config();
+// dotenv.config();
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.use('/api/notifications', notificationRouter);
 app.get('/', (req, res) => res.send('Notification Service Running'));
 

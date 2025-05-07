@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { connectRabbitMQ, listenToEvents } = require('./utils/publisher');
 const dotenv = require('dotenv');
 const transactionRouter = require('./routes/transaction');
 
-dotenv.config();
+// dotenv.config();
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.use('/api/transaction', transactionRouter);
 app.get('healthcheck', (req, res) => {
   res.status(200).send({

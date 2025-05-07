@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const cors = require('cors');
+// const dotenv = require('dotenv');
 const reportRouter = require('./routes/report');
 const { connectRabbitMQ } = require('./utils/consumer');
 
-dotenv.config();
+// dotenv.config();
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.use('/api/reports', reportRouter);
 app.get('/', (req, res) => res.send('Reporting Service Running'));
 
