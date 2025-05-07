@@ -10,8 +10,6 @@ exports.transfer = async (req, res) => {
   try {
     const sender = await userService.getUserById(senderId);
     const receiver = await userService.getUserById(receiverId);
-    console.log(sender);
-    console.log(receiver);
     if (!sender || !receiver) {
       return res.status(404).json({ message: 'User not found' });
     }

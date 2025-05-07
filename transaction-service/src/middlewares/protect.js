@@ -1,6 +1,16 @@
-const { verifyToken } = require('../utils/jwt');
+const jwt = require('jsonwebtoken');
 
-const protect = (req, res, next) => {
+// Verify JWT token
+const verifyToken = (token) => {
+  try {
+    console.log(process.env.JWT_SECRET);
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return null;
+  }
+};
+
+exports.protect = (req, res, next) => {
   const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
   if (!token) {
@@ -13,8 +23,7 @@ const protect = (req, res, next) => {
     return res.status(401).json({ message: 'Token is not valid' });
   }
 
-  req.userId = decoded.userId;
+  req.userId = decoded.id;
   next();
 };
 
-module.exports = { protect };

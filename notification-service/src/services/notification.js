@@ -26,3 +26,15 @@ exports.pollNotifications = async (userId, timeout = 60000) => {
   }
   return []; // Return empty array on timeout
 }
+
+exports.getNotificationById = async (id) => {
+  try {
+    const notification = await Notification.findById(id);
+    if (!notification) {
+      throw new Error('Notification not found');
+    }
+    return notification;
+  } catch (error) {
+    throw error;
+  }
+}

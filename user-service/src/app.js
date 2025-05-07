@@ -48,10 +48,10 @@ const start = async () => {
     let mongo_url, RabbitMQ_URI_USER;
     if (process.env.NODE_ENV === 'development') {
       mongo_url = process.env.MONGO_URI;
-      RabbitMQ_URI_USER = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_USER = process.env.RABBITMQ_URL;
     } else if (process.env.NODE_ENV === 'staging') {
       mongo_url = process.env.MONGO_URI;
-      RabbitMQ_URI_USER = process.env.RABBITMQ_URI;
+      RabbitMQ_URI_USER = process.env.RABBITMQ_URL;
       mongo_url = mongo_url.replace('staging_user', process.env.MONGO_USER || '').replace('staging_pass', process.env.MONGO_PASS || '');
       RabbitMQ_URI_USER = RabbitMQ_URI_USER.replace('staging_user', process.env.RABBITMQ_USER || 'guest').replace('staging_pass', process.env.RABBITMQ_PASS || 'guest');
     } else if (process.env.NODE_ENV === 'production') {
@@ -61,7 +61,7 @@ const start = async () => {
       // mongo_url = mongo_url.replace('prod_user', process.env.MONGO_INITDB_ROOT_USERNAME || '').replace('prod_pass', process.env.MONGO_INITDB_ROOT_PASSWORD || '');
       RabbitMQ_URI_USER = RabbitMQ_URI_USER.replace('prod_user', process.env.RABBITMQ_USER || 'guest' ).replace('prod_pass', process.env.RABBITMQ_PASS || 'guest' );
     }
-    await mongoose.connect(mongo_url, {
+    await mongoose.connect(mongo_url , {
       // These options may not be needed with newer Mongoose versions but included for compatibility
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,

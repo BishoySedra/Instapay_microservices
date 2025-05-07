@@ -2,8 +2,9 @@ const User = require('../models/User');
 
 exports.getUserById = async (id) => {
     const user = await User.findById(id);
+    console.log(user);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      throw new Error('User not found');
     }
     return user;
 }
@@ -11,7 +12,7 @@ exports.getUserById = async (id) => {
 exports.getUserByEmail = async (email) => {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      throw new Error('user not found');
     }
     return user;
 }

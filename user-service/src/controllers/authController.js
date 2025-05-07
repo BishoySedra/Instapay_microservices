@@ -61,11 +61,10 @@ exports.protect = (req, res, next) => {
   }
 
   const decoded = verifyToken(token);
-
   if (!decoded) {
     return res.status(401).json({ message: 'Token is not valid' });
   }
 
-  req.userId = decoded.userId;
+  req.userId = decoded.id;
   next();
 };

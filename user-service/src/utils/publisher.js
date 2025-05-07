@@ -56,7 +56,7 @@ const listenToTransferRequests = async () => {
       } catch (err) {
         publishEvent('transfer.failed', {
           senderId,
-          receiverId,
+          receiverId: receiver._id,
           amount,
           reason: err.message,
         });

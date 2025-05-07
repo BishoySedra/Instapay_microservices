@@ -4,7 +4,7 @@ const transactionService = require('../services/transaction');
 exports.sendMoney = async (req, res) => {
   const { receiverEmail, amount, description } = req.body;
   const senderId = req.userId; // Assuming senderId is the authenticated user's ID
-  if (!senderId || !receiverId || !amount) {
+  if (!senderId || !amount) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
