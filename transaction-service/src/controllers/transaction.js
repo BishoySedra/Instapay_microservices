@@ -27,7 +27,8 @@ exports.sendMoney = async (req, res) => {
 };  
 
 exports.getTransactions = async (req, res) => {
-  return await transactionService.getTransactionsByUserId(req.userId);
+  const data = await transactionService.getTransactionsByUserId(req.userId);
+  res.status(200).json({ message: 'successful', data });
 }
 
 exports.getTransactionById = async (req, res) => {

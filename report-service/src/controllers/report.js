@@ -1,7 +1,7 @@
 const Report = require('../models/Report');
 
 exports.getSummary = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   try {
     const report = await Report.findOne({ userId });

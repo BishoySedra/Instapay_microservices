@@ -24,6 +24,7 @@ exports.protect = (req, res, next) => {
   }
 
   req.userId = decoded.id;
+  console.log('protected');
   next();
 };
 

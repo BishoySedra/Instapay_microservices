@@ -40,7 +40,7 @@ const listenToTransferRequests = async () => {
       console.log('received transfer.requested', event.data);
       try {
         const sender = await User.findById(senderId);
-        const receiver = await User.find({ email: receiverEmail });
+        const receiver = await User.findOne({ email: receiverEmail });
         console.log('send receive');
         if (!sender || !receiver) throw new Error('User not found');
         if (sender.balance < amount) throw new Error('Insufficient balance');
