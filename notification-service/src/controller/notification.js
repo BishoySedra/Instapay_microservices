@@ -4,7 +4,7 @@ exports.healthCheck = (req, res) => {
 };
 
 exports.pollNotifications = async (req, res) => {
-  const { userId } = req.userId;
+  const userId = req.userId;
   const notifications = await NotificationService.pollNotifications(userId);
   res.status(200).json(notifications);
 };

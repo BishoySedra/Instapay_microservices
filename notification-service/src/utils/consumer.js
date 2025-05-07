@@ -22,8 +22,10 @@ const connectRabbitMQ = async (url) => {
         const message_1 = `You have sent $${amount} to ${receiverId} at ${timestamp}`;
         const message_2 = `You have received $${amount} from ${senderId} at ${timestamp}`;
         // Mock notification sending
-        await createNotification({ userId: senderId, message: message_1, type: 'TRANSACTION' });
-        await createNotification({ userId: receiverId, message: message_2, type: 'TRANSACTION' });
+        const c1 = await createNotification({ userId: senderId, message: message_1, type: 'TRANSACTION' });
+        const c2 = await createNotification({ userId: receiverId, message: message_2, type: 'TRANSACTION' });
+        console.log(c1);
+        console.log(c2);
         channel.ack(msg); // Acknowledge after processing
       }
 
