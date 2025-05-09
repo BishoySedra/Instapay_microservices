@@ -64,3 +64,17 @@ services:
     volumes:
       - ./notification-service/src:/app/src
     command: npm run dev
+
+  frontend:
+    build:
+      context: ./client
+      args:
+       VITE_MODE: development  # or development / production  
+    environment:
+        - NODE_ENV=development
+        - VITE_USER_SERVICE_URL=http://localhost:3001
+        - VITE_TRANSACTION_SERVICE_URL=http://localhost:3002
+        - VITE_REPORT_SERVICE_URL=http://localhost:3003
+        - VITE_NOTIFICATION_SERVICE_URL=http://localhost:3004
+    volumes:
+        - ./client:/app  # Live reload for development

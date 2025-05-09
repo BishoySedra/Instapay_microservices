@@ -1,0 +1,44 @@
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    margin-left: 2rem;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #7c3aed;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.nav-list {
+    list-style: none; 
+    padding: 0;
+    margin: 0; 
+}
+
+.nav-item {
+    font-size: 27px;
+    color: #4D1B83;
+    text-decoration: none;
+    width: 270px;
+    display: flex;
+    margin: 40px 0 19px 4rem;
+    padding-left: 15px;
+    overflow-wrap: break-word;
+    transition: color 0.3s;
+    font-weight: 700;
+    cursor: pointer; /* Ensure pointer cursor */
+}
+
+.nav-item.focused {
+    color: white;
+    color: #ff5722;  /* Or any color you prefer */
+    border-radius: 4px;
+  }
+
+.nav-item:hover {
+    color: #ff5722;
+}
+
