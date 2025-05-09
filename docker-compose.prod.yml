@@ -121,3 +121,9 @@ services:
           cpus: "0.2"
           memory: 256M
       replicas: 2
+
+  frontend:
+    build:
+      context: ./client
+      args:
+       VITE_MODE: production  # or development / production

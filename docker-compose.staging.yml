@@ -87,3 +87,8 @@ services:
         reservations:
           cpus: "0.2"
           memory: 128M
+  frontend:
+    build:
+      context: ./client
+      args:
+       VITE_MODE: staging  # or development / production

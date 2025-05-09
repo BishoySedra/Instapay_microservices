@@ -1,8 +1,9 @@
 const userService = require('../services/user');
+const User = require('../models/User');
 
 exports.transfer = async (req, res) => {
   const { senderId, receiverId, amount } = req.body;
-  
+
   if (!senderId || !receiverId || !amount) {
     return res.status(400).json({ message: 'Missing transfer fields' });
   }
@@ -33,21 +34,27 @@ exports.transfer = async (req, res) => {
 exports.updateBalance = async (req, res) => {
   const { amount } = req.body;
   const id = req.userId;
-  if (!amount) {
+
+  if (amount == null) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
+
   try {
-    const user = userService.getUserById(id);
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
     if (user.balance + amount < 0) {
       return res.status(400).json({ message: 'Insufficient balance' });
     }
-    user.balance += amount;
+
+    user.balance = amount;
     await user.save();
+
     res.status(200).json({ message: 'Balance updated successfully', data: user });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.getUser = async (req, res) => {
   const id = req.userId;

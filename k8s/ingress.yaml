@@ -46,6 +46,14 @@ spec:
             name: client-service
             port:
               number: 3000
+      - path: /client(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: client-service
+            port:
+              number: 80
+
   # Add TLS configuration if needed
   # tls:
   # - hosts:
