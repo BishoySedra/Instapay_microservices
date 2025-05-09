@@ -67,6 +67,8 @@ services:
           memory: 128M
 
   user-service:
+    ports:
+      - "3001:3001"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -78,9 +80,10 @@ services:
         reservations:
           cpus: "0.2"
           memory: 128M
-      replicas: 2
 
   transaction-service:
+    ports:
+      - "3002:3002"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -92,9 +95,10 @@ services:
         reservations:
           cpus: "0.2"
           memory: 128M
-      replicas: 2
 
   report-service:
+    ports:
+      - "3003:3003"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -106,9 +110,10 @@ services:
         reservations:
           cpus: "0.2"
           memory: 128M
-      replicas: 2
 
   notification-service:
+    ports:
+      - "3004:3004"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -120,10 +125,9 @@ services:
         reservations:
           cpus: "0.2"
           memory: 256M
-      replicas: 2
 
   frontend:
     build:
       context: ./client
       args:
-       VITE_MODE: production  # or development / production
+        VITE_MODE: production # or development / production
