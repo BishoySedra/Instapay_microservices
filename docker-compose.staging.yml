@@ -2,8 +2,6 @@ version: "3.8"
 
 services:
   rabbitmq:
-    ports:
-      - "15672:15672" # Management UI for monitoring
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
@@ -33,7 +31,7 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=staging
-      - LOG_LEVEL=info
+      - LOG_LEVEL=error
     deploy:
       resources:
         limits:
@@ -48,7 +46,7 @@ services:
       - "3002:3002"
     environment:
       - NODE_ENV=staging
-      - LOG_LEVEL=info
+      - LOG_LEVEL=error
     deploy:
       resources:
         limits:
@@ -63,7 +61,7 @@ services:
       - "3003:3003"
     environment:
       - NODE_ENV=staging
-      - LOG_LEVEL=info
+      - LOG_LEVEL=error
     deploy:
       resources:
         limits:
@@ -78,7 +76,7 @@ services:
       - "3004:3004"
     environment:
       - NODE_ENV=staging
-      - LOG_LEVEL=info
+      - LOG_LEVEL=error
     deploy:
       resources:
         limits:
