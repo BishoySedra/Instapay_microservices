@@ -8,7 +8,7 @@ A microservices-based payment platform that enables secure and instant money tra
 - Real-time money transfers between users
 - Transaction history tracking
 - Account balance management
-- Real-time notifications
+- Notifications for transactions
 - Comprehensive reporting system
 
 ## Architecture
@@ -18,7 +18,7 @@ The application is built using a microservices architecture with the following s
 - **User Service**: Handles user management, authentication, and account operations
 - **Transaction Service**: Manages money transfers and transaction processing
 - **Report Service**: Generates financial reports and analytics
-- **Notification Service**: Handles real-time notifications for transactions
+- **Notification Service**: Handles notifications for transactions
 - **Frontend**: React-based user interface
 
 ## Technologies
