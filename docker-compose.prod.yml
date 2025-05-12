@@ -2,9 +2,6 @@ version: "3.8"
 
 services:
   rabbitmq:
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
     deploy:
       resources:
         limits:
@@ -15,9 +12,6 @@ services:
           memory: 128M
 
   user-mongo:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     deploy:
       resources:
         limits:
@@ -28,9 +22,6 @@ services:
           memory: 128M
 
   transaction-mongo:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     deploy:
       resources:
         limits:
@@ -41,9 +32,6 @@ services:
           memory: 128M
 
   report-mongo:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     deploy:
       resources:
         limits:
@@ -54,9 +42,6 @@ services:
           memory: 128M
 
   notification-mongo:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     deploy:
       resources:
         limits:
@@ -67,8 +52,6 @@ services:
           memory: 128M
 
   user-service:
-    ports:
-      - "3001:3001"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -82,8 +65,6 @@ services:
           memory: 128M
 
   transaction-service:
-    ports:
-      - "3002:3002"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -97,8 +78,6 @@ services:
           memory: 128M
 
   report-service:
-    ports:
-      - "3003:3003"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -112,8 +91,6 @@ services:
           memory: 128M
 
   notification-service:
-    ports:
-      - "3004:3004"
     environment:
       - NODE_ENV=production
       - LOG_LEVEL=error
@@ -131,3 +108,9 @@ services:
       context: ./client
       args:
         VITE_MODE: production # or development / production
+    environment:
+      - NODE_ENV=production
+      - VITE_USER_SERVICE_URL=${VITE_USER_SERVICE_URL}
+      - VITE_TRANSACTION_SERVICE_URL=${VITE_TRANSACTION_SERVICE_URL}
+      - VITE_REPORT_SERVICE_URL=${VITE_REPORT_SERVICE_URL}
+      - VITE_NOTIFICATION_SERVICE_URL=${VITE_NOTIFICATION_SERVICE_URL}
