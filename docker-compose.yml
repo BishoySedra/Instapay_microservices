@@ -1,6 +1,12 @@
 services:
   rabbitmq:
     image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
       interval: 10s
@@ -11,6 +17,8 @@ services:
       - mini-insta-network
 
   user-mongo:
+    ports:
+      - "27017:27017"
     image: mongo
     volumes:
       - user-data:/data/db
@@ -18,6 +26,8 @@ services:
       - mini-insta-network
 
   transaction-mongo:
+    ports:
+      - "27018:27017"
     image: mongo
     volumes:
       - transaction-data:/data/db
@@ -25,6 +35,8 @@ services:
       - mini-insta-network
 
   report-mongo:
+    ports:
+      - "27019:27017"
     image: mongo
     volumes:
       - report-data:/data/db
@@ -32,6 +44,8 @@ services:
       - mini-insta-network
 
   notification-mongo:
+    ports:
+      - "27020:27017"
     image: mongo
     volumes:
       - notification-data:/data/db
@@ -40,9 +54,9 @@ services:
 
   user-service:
     build: ./user-service
+    ports:
+      - "3001:3001"
     environment:
-      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
-      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_USER}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - PORT=3001
@@ -57,9 +71,9 @@ services:
 
   transaction-service:
     build: ./transaction-service
+    ports:
+      - "3002:3002"
     environment:
-      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
-      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_TRANSACTION}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - JWT_SECRET=${JWT_SECRET}
@@ -74,9 +88,9 @@ services:
 
   report-service:
     build: ./report-service
+    ports:
+      - "3003:3003"
     environment:
-      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
-      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_REPORT}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - PORT=3003
@@ -91,9 +105,9 @@ services:
 
   notification-service:
     build: ./notification-service
+    ports:
+      - "3004:3004"
     environment:
-      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
-      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_NOTIFICATION}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - JWT_SECRET=${JWT_SECRET}
@@ -109,15 +123,8 @@ services:
   frontend:
     build:
       context: ./client
-      args:
-        VITE_MODE: ${VITE_MODE}  # Pass VITE_MODE to Dockerfile
-    environment:
-      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
-      - VITE_MODE=${VITE_MODE}  # Dynamically set based on environment
-      - VITE_USER_SERVICE_URL=${VITE_USER_SERVICE_URL}
-      - VITE_TRANSACTION_SERVICE_URL=${VITE_TRANSACTION_SERVICE_URL}
-      - VITE_REPORT_SERVICE_URL=${VITE_REPORT_SERVICE_URL}
-      - VITE_NOTIFICATION_SERVICE_URL=${VITE_NOTIFICATION_SERVICE_URL}
+    ports:
+      - "5173:80"  # Correct port mapping for Vite dev server
     depends_on:
       - user-service
       - transaction-service

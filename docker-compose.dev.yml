@@ -2,32 +2,11 @@ version: "3.8"
 
 services:
   rabbitmq:
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
 
-  user-mongo:
-    ports:
-      - "27017:27017"
-
-  transaction-mongo:
-    ports:
-      - "27018:27017"
-
-  report-mongo:
-    ports:
-      - "27019:27017"
-
-  notification-mongo:
-    ports:
-      - "27020:27017"
-
   user-service:
-    ports:
-      - "3001:3001"
     environment:
       - NODE_ENV=development
       - LOG_LEVEL=debug
@@ -36,8 +15,6 @@ services:
     command: npm run dev # Assumes nodemon
 
   transaction-service:
-    ports:
-      - "3002:3002"
     environment:
       - NODE_ENV=development
       - LOG_LEVEL=debug
@@ -46,8 +23,6 @@ services:
     command: npm run dev
 
   report-service:
-    ports:
-      - "3003:3003"
     environment:
       - NODE_ENV=development
       - LOG_LEVEL=debug
@@ -56,8 +31,6 @@ services:
     command: npm run dev
 
   notification-service:
-    ports:
-      - "3004:3004"
     environment:
       - NODE_ENV=development
       - LOG_LEVEL=debug
@@ -66,15 +39,13 @@ services:
     command: npm run dev
 
   frontend:
-    ports:
-      - "5173:80"  # Correct port mapping for Vite dev server
     build:
       context: ./client
       args:
         VITE_MODE: development  # Pass VITE_MODE to Dockerfile
     environment:
       - NODE_ENV=development
-      - VITE_USER_SERVICE_URL=http://localhost:3001
-      - VITE_TRANSACTION_SERVICE_URL=http://localhost:3002
-      - VITE_REPORT_SERVICE_URL=http://localhost:3003
-      - VITE_NOTIFICATION_SERVICE_URL=http://localhost:3004
+      - VITE_USER_SERVICE_URL=${VITE_USER_SERVICE_URL}
+      - VITE_TRANSACTION_SERVICE_URL=${VITE_TRANSACTION_SERVICE_URL}
+      - VITE_REPORT_SERVICE_URL=${VITE_REPORT_SERVICE_URL}
+      - VITE_NOTIFICATION_SERVICE_URL=${VITE_NOTIFICATION_SERVICE_URL}
