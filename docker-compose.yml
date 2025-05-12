@@ -14,11 +14,6 @@ services:
     image: mongo
     volumes:
       - user-data:/data/db
-    # healthcheck:
-    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
     networks:
       - mini-insta-network
 
@@ -26,11 +21,6 @@ services:
     image: mongo
     volumes:
       - transaction-data:/data/db
-    # healthcheck:
-    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
     networks:
       - mini-insta-network
 
@@ -38,11 +28,6 @@ services:
     image: mongo
     volumes:
       - report-data:/data/db
-    # healthcheck:
-    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
     networks:
       - mini-insta-network
 
@@ -50,17 +35,14 @@ services:
     image: mongo
     volumes:
       - notification-data:/data/db
-    # healthcheck:
-    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
     networks:
       - mini-insta-network
 
   user-service:
     build: ./user-service
     environment:
+      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
+      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_USER}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - PORT=3001
@@ -76,6 +58,8 @@ services:
   transaction-service:
     build: ./transaction-service
     environment:
+      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
+      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_TRANSACTION}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - JWT_SECRET=${JWT_SECRET}
@@ -91,6 +75,8 @@ services:
   report-service:
     build: ./report-service
     environment:
+      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
+      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_REPORT}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - PORT=3003
@@ -106,6 +92,8 @@ services:
   notification-service:
     build: ./notification-service
     environment:
+      - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
+      - LOG_LEVEL=${LOG_LEVEL}  # Dynamically set based on environment
       - MONGO_URI=${MONGO_URI_NOTIFICATION}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - JWT_SECRET=${JWT_SECRET}
@@ -118,14 +106,14 @@ services:
     networks:
       - mini-insta-network
 
-
   frontend:
     build:
       context: ./client
-    ports:
-      - "5173:80"
+      args:
+        VITE_MODE: ${VITE_MODE}  # Pass VITE_MODE to Dockerfile
     environment:
       - NODE_ENV=${NODE_ENV}  # Dynamically set based on environment
+      - VITE_MODE=${VITE_MODE}  # Dynamically set based on environment
       - VITE_USER_SERVICE_URL=${VITE_USER_SERVICE_URL}
       - VITE_TRANSACTION_SERVICE_URL=${VITE_TRANSACTION_SERVICE_URL}
       - VITE_REPORT_SERVICE_URL=${VITE_REPORT_SERVICE_URL}
@@ -144,7 +132,7 @@ services:
 
 networks:
   mini-insta-network:
-    driver: bridge
+    # driver: bridge
 
 volumes:
   user-data:

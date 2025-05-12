@@ -11,7 +11,7 @@ COPY . .
 ARG VITE_MODE=production
 ENV VITE_MODE=${VITE_MODE}
 
-RUN npm run build -- --mode ${VITE_MODE}
+RUN npm run build:${VITE_MODE}
 
 # Stage 2: Serve
 FROM nginx:alpine

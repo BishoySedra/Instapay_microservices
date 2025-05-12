@@ -6,7 +6,8 @@
     "dev:staging": "vite --mode staging",
     "build": "vite build",
     "build:staging": "vite build --mode staging",
-    "build:prod": "vite build --mode production"
+    "build:production": "vite build --mode production",
+    "build:development": "vite build --mode development"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
