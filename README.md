@@ -55,17 +55,18 @@ Create the following environment files with appropriate values:
 
 ### Development Environment
 ```sh
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d
+docker-compose --env-file .env -f docker-compose.yml --env-file .env.dev -f docker-compose.dev.yml up --build -d
 ```
 
 ### Staging Environment
 ```sh
-docker-compose -f docker-compose.yml -f docker-compose.staging.yml up --build -d
+docker-compose --env-file .env -f docker-compose.yml --env-file .env.staging -f docker-compose.staging.yml up --build -d
 ```
 
 ### Production Environment
 ```sh
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+docker-compose --env-file .env -f docker-compose.yml --env-file .env.prod -f docker-compose.prod.yml up --build -d
+
 ```
 
 ## API Documentation
