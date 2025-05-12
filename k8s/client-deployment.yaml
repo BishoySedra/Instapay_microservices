@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: client
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: client
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: client
-        image: your-dockerhub/client-frontend:latest  # ✅ Replace with actual image name
+        image: mazen24862/client-frontend  # ✅ Replace with actual image name
         ports:
         - containerPort: 80
