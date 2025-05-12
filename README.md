@@ -1,4 +1,4 @@
-# InstaPay - Modern Payment Solution
+# InstaPay - microservices-based
 
 A microservices-based payment platform that enables secure and instant money transfers between users.
 
