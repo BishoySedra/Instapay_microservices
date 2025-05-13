@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: mazen24862/client-frontend
+          image: bishoysedra/client-frontend:latest
           ports:
             - containerPort: 80
 ---
