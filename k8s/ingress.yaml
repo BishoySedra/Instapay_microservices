@@ -39,7 +39,8 @@ spec:
             name: notification-service
             port:
               number: 3004
-      - path: /client(/|$)(.*)
+      # Add a dedicated path for the client root
+      - path: /(.*)
         pathType: ImplementationSpecific
         backend:
           service:
