@@ -13,4 +13,14 @@ export default defineConfig({
       '/api': 'http://localhost:3001', // Adjust according to your backend API
     }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Disable hashing of filenames
+        entryFileNames: '[name].js', // Preserve the original entry file name
+        chunkFileNames: '[name].js', // Preserve the original chunk file names
+        assetFileNames: '[name].[ext]' // Preserve asset file names without hash
+      }
+    }
+  }
 });
