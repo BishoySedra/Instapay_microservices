@@ -36,6 +36,7 @@ kubectl wait --for-condition-Ready pod -l app-user-mongo --timeout-300s
 echo "---------------------"
 echo "Applying services...|"
 echo "---------------------"
+
 kubectl apply -f k8s/notification-service-depl.yaml
 kubectl apply -f k8s/report-service-depl.yaml
 kubectl apply -f k8s/transaction-service-depl.yaml
@@ -45,7 +46,9 @@ kubectl apply -f k8s/client-service-depl.yaml
 echo "---------------------"
 echo "Applying ingress... |"
 echo "---------------------"
-kubectl apply -f k8s/ingress.yaml
+
+kubectl apply -f k8s/apis-ingress.yaml
+kubectl apply -f k8s/frontend-ingress.yaml
 
 echo "----------------------"
 echo "Deployment complete! |"
