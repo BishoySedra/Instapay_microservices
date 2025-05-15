@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
-const { connectRabbitMQ, listenToTransferRequests }  = require('./utils/publisher'); // Import RabbitMQ connection
+const { connectRabbitMQ, listenToTransferRequests } = require('./utils/publisher'); // Import RabbitMQ connection
 
 // dotenv.config();
 
@@ -13,12 +13,8 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
-app.get('/health', (req, res) => {
-  res.status(200).send({
-    status: 'success',
-    message: 'User service is running',
-    timestamp: new Date().toISOString()
-  });
+app.get('/', (req, res) => {
+  res.send('User Service is running');
 });
 
 // app.use('/*', (req, res) => {  
@@ -59,9 +55,9 @@ const start = async () => {
       RabbitMQ_URI_USER = process.env.RABBITMQ_URL;
       console.log('we here ?');
       // mongo_url = mongo_url.replace('prod_user', process.env.MONGO_INITDB_ROOT_USERNAME || '').replace('prod_pass', process.env.MONGO_INITDB_ROOT_PASSWORD || '');
-      RabbitMQ_URI_USER = RabbitMQ_URI_USER.replace('prod_user', process.env.RABBITMQ_USER || 'guest' ).replace('prod_pass', process.env.RABBITMQ_PASS || 'guest' );
+      RabbitMQ_URI_USER = RabbitMQ_URI_USER.replace('prod_user', process.env.RABBITMQ_USER || 'guest').replace('prod_pass', process.env.RABBITMQ_PASS || 'guest');
     }
-    await mongoose.connect(mongo_url , {
+    await mongoose.connect(mongo_url, {
       // These options may not be needed with newer Mongoose versions but included for compatibility
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
@@ -71,7 +67,7 @@ const start = async () => {
     await connectRabbitMQ(RabbitMQ_URI_USER);
     await listenToTransferRequests();
     console.log('RabbitMQ connected and listening for transfer requests');
-    
+
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => console.log(`User Service running on port ${PORT}`));
   } catch (err) {

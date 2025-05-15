@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: transaction-service
-          image: mazen24862/transaction-service:latest
+          image: bishoysedra/transaction-service:latest
           ports:
             - containerPort: 3002
           env:

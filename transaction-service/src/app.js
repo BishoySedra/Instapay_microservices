@@ -10,12 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use('/api/transaction', transactionRouter);
-app.get('healthcheck', (req, res) => {
-  res.status(200).send({
-    status: 'success',
-    message: 'Transaction service is running',
-    timestamp: new Date().toISOString()
-  });
+app.get('/', (req, res) => {
+  res.send('Transaction Service is running');
 });
 
 app.use((err, req, res, next) => {
@@ -32,20 +28,17 @@ const start = async () => {
   try {
 
     let MONGO_URI_TRANSACTION, RabbitMQ_URI_TRANSACTION;
-    if (process.env.NODE_ENV === 'development') 
-    {
+    if (process.env.NODE_ENV === 'development') {
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
       RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URL;
     }
-    else if (process.env.NODE_ENV === 'staging') 
-    {
+    else if (process.env.NODE_ENV === 'staging') {
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
       RabbitMQ_URI_TRANSACTION = process.env.RABBITMQ_URL;
       MONGO_URI_TRANSACTION = MONGO_URI_TRANSACTION.replace('staging_user', process.env.MONGO_USER).replace('staging_pass', process.env.MONGO_PASS);
       RabbitMQ_URI_TRANSACTION = RabbitMQ_URI_TRANSACTION.replace('staging_user', process.env.RABBITMQ_USER).replace('staging_pass', process.env.RABBITMQ_PASS);
     }
-    else if (process.env.NODE_ENV === 'production') 
-    {
+    else if (process.env.NODE_ENV === 'production') {
       console.log(process.env.MONGO_URI)
       console.log(process.env.RABBITMQ_URL)
       MONGO_URI_TRANSACTION = process.env.MONGO_URI;
