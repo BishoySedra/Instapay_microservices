@@ -14,7 +14,7 @@ kubectl apply -f k8s/rabbitmq-depl.yaml
 echo "-----------------------------------------"
 echo "Waiting for RabbitMQ pod to be ready... |"
 echo "-----------------------------------------"
-kubectl wait --for-condition-Ready pod -l app-rabbitmq --timeout-300s
+kubectl wait --for=condition=Ready pod -l app=rabbitmq --timeout=300s
 
 echo "---------------------------------"
 echo "Applying MongoDB deployments... |"
@@ -28,10 +28,10 @@ echo "-----------------------------------------"
 echo "Waiting for MongoDB pods to be ready... |"
 echo "-----------------------------------------"
 
-kubectl wait --for-condition-Ready pod -l app-notification-mongo --timeout-300s
-kubectl wait --for-condition-Ready pod -l app-report-mongo --timeout-300s
-kubectl wait --for-condition-Ready pod -l app-transaction-mongo --timeout-300s
-kubectl wait --for-condition-Ready pod -l app-user-mongo --timeout-300s
+kubectl wait --for=condition=Ready pod -l app=notification-mongo  --timeout=300s
+kubectl wait --for=condition=Ready pod -l app=report-mongo   --timeout=300s
+kubectl wait --for=condition=Ready pod -l app=transaction-mongo   --timeout=300s
+kubectl wait --for=condition=Ready pod -l app=user-mongo   --timeout=300s
 
 echo "---------------------"
 echo "Applying services...|"
