@@ -1,98 +1,151 @@
-# InstaPay - microservices-based
+# InstaPay - Microservices-Based Payment Platform
 
-A microservices-based payment platform that enables secure and instant money transfers between users.
+A scalable and modular microservices-based platform that facilitates secure and instant money transfers between users.
 
-## Features
+---
 
-- Secure user authentication and authorization
-- Real-time money transfers between users
-- Transaction history tracking
-- Account balance management
-- Notifications for transactions
-- Comprehensive reporting system
+## 🚀 Features
 
-## Architecture
+* 🔐 User authentication and authorization (JWT-based)
+* 💸 Real-time peer-to-peer money transfers
+* 📊 Transaction history and account balance tracking
+* 📩 Notification system (RabbitMQ)
+* 📈 Dynamic reporting service
+* 🖥️ Modern frontend with animations and responsive design
 
-The application is built using a microservices architecture with the following services:
+---
 
-- **User Service**: Handles user management, authentication, and account operations
-- **Transaction Service**: Manages money transfers and transaction processing
-- **Report Service**: Generates financial reports and analytics
-- **Notification Service**: Handles notifications for transactions
-- **Frontend**: React-based user interface
-
-## Technologies
-
-- **Backend**:
-  - Node.js
-  - Express
-  - MongoDB
-  - RabbitMQ
-  - JWT Authentication
-
-- **Frontend**:
-  - React
-  - Redux
-  - Tailwind CSS
-  - Framer Motion
-
-## Prerequisites
-
-- Docker and Docker Compose
-- Node.js 18+
-- MongoDB
-- RabbitMQ
-
-## Environment Setup
-
-Create the following environment files with appropriate values:
-
-- `.env.dev` - Development environment variables
-- `.env.staging` - Staging environment variables
-- `.env.prod` - Production environment variables
-
-## Running the Application
-
-### Development Environment
-```sh
-docker-compose --env-file .env -f docker-compose.yml --env-file .env.dev -f docker-compose.dev.yml up --build -d
-```
-
-### Staging Environment
-```sh
-docker-compose --env-file .env -f docker-compose.yml --env-file .env.staging -f docker-compose.staging.yml up --build -d
-```
-
-### Production Environment
-```sh
-docker-compose --env-file .env -f docker-compose.yml --env-file .env.prod -f docker-compose.prod.yml up --build -d
+## 🧱 Project Structure
 
 ```
-
-## API Documentation
-
-### User Service (Port 3001)
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - User login
-- `GET /api/users/me` - Get user profile
-- `PUT /api/users/update` - Update user balance
-
-### Transaction Service (Port 3002)
-- `POST /api/transaction/send` - Send money
-- `GET /api/transaction` - Get user transactions
-- `GET /api/transaction/:id` - Get transaction by ID
-
-### Report Service (Port 3003)
-- `GET /api/reports/summary` - Get transaction summary
-
-### Notification Service (Port 3004)
-- `GET /api/notifications` - Get user notifications
-- `GET /api/notifications/:id` - Get notification by ID
-
-## Kubernetes Deployment
-
-The application can be deployed to Kubernetes using the manifests in the `k8s` directory:
-
-```sh
-kubectl apply -f k8s/
+Instapay_microservices/
+├── client/                   # React frontend app
+├── user-service/            # User authentication and account service
+├── transaction-service/     # Handles transactions and balances
+├── report-service/          # Generates financial reports
+├── notification-service/    # Sends user notifications (via RabbitMQ)
+├── k8s/                     # Kubernetes manifests for all services
+├── .env*                    # Environment configurations (dev, prod, staging)
+├── docker-compose*.yml      # Compose files for multi-environment orchestration
+├── start-k8s.sh             # Script to start services with Kubernetes
+├── end-k8s.sh               # Script to stop all K8s services
+├── restart-services.sh      # Restarts individual services
+├── package.json             # Root Node.js metadata (used for scripts)
+└── README.md                # Project documentation
 ```
+
+---
+
+## ⚙️ Technologies
+
+### Backend
+
+* Node.js + Express
+* MongoDB
+* RabbitMQ (messaging)
+* JWT for authentication
+
+### Frontend
+
+* React + Vite
+* Redux Toolkit
+* Tailwind CSS + Framer Motion
+
+### DevOps
+
+* Docker & Docker Compose
+* Kubernetes (K8s)
+* NGINX Ingress Controller
+
+---
+
+## 🛠️ Getting Started (Development)
+
+### Prerequisites
+
+* Docker + Docker Compose
+* Node.js (v18+)
+* kubectl (if using Kubernetes)
+* Minikube / Local K8s cluster
+
+### Setup (Docker Compose)
+
+```bash
+# Clone the repo
+$ git clone https://github.com/MazenMostafa2025/Instapay_microservices.git
+$ cd Instapay_microservices
+
+# Create .env files (examples provided)
+$ cp .env.dev .env
+
+# Run all services
+$ docker-compose -f docker-compose.dev.yml up --build
+```
+
+### Setup (Kubernetes)
+
+```bash
+# Start local cluster (Minikube or similar)
+$ ./start-k8s.sh
+
+# Stop the cluster
+$ ./end-k8s.sh
+```
+
+---
+
+## 🌐 Accessing the App
+
+Once running:
+
+* Frontend: [http://instapay.local](http://instapay.local)
+* APIs: accessible via internal service names or through the Ingress at [http://instapay.local/api](http://instapay.local/api)
+
+Ensure `instapay.local` is added to your `/etc/hosts` if not using a public DNS.
+
+```
+127.0.0.1 instapay.local
+```
+
+---
+
+## 📁 Environment Variables
+
+Set appropriate values in the respective `.env` files:
+
+```
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/userdb
+JWT_SECRET=your_jwt_secret
+RABBITMQ_URL=amqp://rabbitmq:5672
+...
+```
+
+---
+
+## 📦 Deployment (Production)
+
+1. Configure `.env.prod`
+2. Use `docker-compose.prod.yml` for production builds:
+
+```bash
+$ docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+3. For cloud deployment, adapt the Kubernetes manifests in `k8s/` for your cloud provider (GKE, EKS, etc.)
+
+---
+
+## 🔍 Troubleshooting
+
+* **Frontend shows `/undefined/api` URLs?**
+
+  * Check `VITE_USER_SERVICE_URL` and other env vars in `vite.config.js`
+* **Ingress not resolving?**
+
+  * Make sure `instapay.local` is mapped in `/etc/hosts`
+* **MongoDB or RabbitMQ not connecting?**
+
+  * Ensure services are properly linked in Docker/K8s and wait for pods to be `Ready`
+
+---
