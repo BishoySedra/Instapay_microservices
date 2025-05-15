@@ -33,9 +33,11 @@ echo "-------------------"
 echo "Re-applying ingress...|"
 echo "-------------------"
 
-kubectl apply -f k8s/ingress.yaml
+kubectl apply -f k8s/apis-ingress.yaml
 
 sleep 10
+
+kubectl apply -f k8s/frontend-ingress.yaml
 
 echo "----------------------"
 echo "Restart complete!     |"
