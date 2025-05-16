@@ -25,7 +25,7 @@ Instapay_microservices/
 ├── report-service/          # Generates user reports
 ├── notification-service/    # Sends transaction alerts
 ├── k8s/                     # Kubernetes manifests
-├── .env*                    # Environment variable files
+├── .env                     # Environment variable files
 ├── docker-compose*.yml      # Compose configurations for different environments
 ├── start-k8s.sh             # Start services on Kubernetes
 ├── end-k8s.sh               # Stop Kubernetes services
