@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: bishoysedra/client-frontend:latest
+          image: bishoysedra/client-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
