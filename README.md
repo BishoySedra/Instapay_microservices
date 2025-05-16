@@ -104,7 +104,7 @@ touch .env
 
 ## 📁 Environment Variables
 
-Set the following variables in the appropriate `.env` files:
+Set the following variables in the appropriate `.env` file:
 
 ```
 # MongoDB URIs
