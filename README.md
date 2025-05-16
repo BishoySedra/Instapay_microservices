@@ -74,16 +74,8 @@ Instapay_microservices/
 git clone https://github.com/MazenMostafa2025/Instapay_microservices.git
 cd Instapay_microservices
 
-# Copy environment variables
-cp .env.dev .env
-
-# Build and start all services
-docker-compose \
-  --env-file .env \
-  -f docker-compose.yml \
-  --env-file .env.dev \
-  -f docker-compose.dev.yml \
-  up --build
+# Create env file
+touch .env
 ```
 
 ### Kubernetes Setup
