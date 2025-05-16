@@ -1,17 +1,17 @@
 # InstaPay - Microservices-Based Payment Platform
 
-A scalable and modular microservices-based platform that facilitates secure and instant money transfers between users.
+InstaPay is a scalable and modular microservices-based platform designed to enable secure and real-time money transfers between users.
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-* 🔐 User authentication and authorization (JWT-based)
-* 💸 Real-time peer-to-peer money transfers
-* 📊 Transaction history and account balance tracking
-* 📩 Notification system (RabbitMQ)
-* 📈 Dynamic reporting service
-* 🖥️ Modern frontend with animations and responsive design
+- 🔐 Secure user authentication and authorization (JWT-based)
+- 💸 Real-time peer-to-peer transactions
+- 📊 Account balance and transaction history tracking
+- 📩 Notification service powered by RabbitMQ
+- 📈 Dynamic financial reporting
+- 🖥️ Modern, responsive frontend with animations
 
 ---
 
@@ -19,43 +19,43 @@ A scalable and modular microservices-based platform that facilitates secure and 
 
 ```
 Instapay_microservices/
-├── client/                   # React frontend app
-├── user-service/            # User authentication and account service
-├── transaction-service/     # Handles transactions and balances
-├── report-service/          # Generates financial reports
-├── notification-service/    # Sends user notifications (via RabbitMQ)
-├── k8s/                     # Kubernetes manifests for all services
-├── .env*                    # Environment configurations (dev, prod, staging)
-├── docker-compose*.yml      # Compose files for multi-environment orchestration
-├── start-k8s.sh             # Script to start services with Kubernetes
-├── end-k8s.sh               # Script to stop all K8s services
-├── restart-services.sh      # Restarts individual services
-├── package.json             # Root Node.js metadata (used for scripts)
+├── client/                   # React frontend
+├── user-service/            # Authentication and account management
+├── transaction-service/     # Handles money transfers
+├── report-service/          # Generates user reports
+├── notification-service/    # Sends transaction alerts
+├── k8s/                     # Kubernetes manifests
+├── .env*                    # Environment variable files
+├── docker-compose*.yml      # Compose configurations for different environments
+├── start-k8s.sh             # Start services on Kubernetes
+├── end-k8s.sh               # Stop Kubernetes services
+├── restart-services.sh      # Restart individual services
+├── package.json             # Project metadata
 └── README.md                # Project documentation
 ```
 
 ---
 
-## ⚙️ Technologies
+## ⚙️ Technologies Used
 
 ### Backend
 
-* Node.js + Express
-* MongoDB
-* RabbitMQ (messaging)
-* JWT for authentication
+- Node.js + Express
+- MongoDB
+- RabbitMQ
+- JWT
 
 ### Frontend
 
-* React + Vite
-* Redux Toolkit
-* Tailwind CSS + Framer Motion
+- React + Vite
+- Redux Toolkit
+- Tailwind CSS + Framer Motion
 
 ### DevOps
 
-* Docker & Docker Compose
-* Kubernetes (K8s)
-* NGINX Ingress Controller
+- Docker & Docker Compose
+- Kubernetes (K8s)
+- NGINX Ingress Controller
 
 ---
 
@@ -63,23 +63,22 @@ Instapay_microservices/
 
 ### Prerequisites
 
-* Docker + Docker Compose
-* Node.js (v18+)
-* kubectl (if using Kubernetes)
-* Minikube / Local K8s cluster
+- Docker and Docker Compose
+- Node.js (v18+)
+- kubectl and Minikube (for Kubernetes setup)
 
-### Setup (Docker Compose)
+### Local Setup (Docker Compose)
 
 ```bash
-# Clone the repo
-$ git clone https://github.com/MazenMostafa2025/Instapay_microservices.git
-$ cd Instapay_microservices
+# Clone the project
+git clone https://github.com/MazenMostafa2025/Instapay_microservices.git
+cd Instapay_microservices
 
-# Create .env files (examples provided)
-$ cp .env.dev .env
+# Copy environment variables
+cp .env.dev .env
 
-# Run all services with both env files
-$ docker-compose \
+# Build and start all services
+docker-compose \
   --env-file .env \
   -f docker-compose.yml \
   --env-file .env.dev \
@@ -87,27 +86,24 @@ $ docker-compose \
   up --build
 ```
 
-### Setup (Kubernetes)
+### Kubernetes Setup
 
 ```bash
-# Start local cluster (Minikube or similar)
-$ ./start-k8s.sh
+# Start local cluster
+./start-k8s.sh
 
 # Stop the cluster
-$ ./end-k8s.sh
+./end-k8s.sh
 ```
 
 ---
 
-## 🌐 Accessing the App
+## 🌐 Application Access
 
-Once running:
+- Frontend: [http://mini-instapay.com](http://mini-instapay.com)
+- APIs: Accessible via internal service names or via [http://mini-instapay.com/api](http://mini-instapay.com/api)
 
-* Frontend: [http://mini-instapay.com](http://mini-instapay.com)
-* APIs: accessible via internal service names or through the Ingress at [http://mini-instapay.com/api](http://instapay.local/api)
-
-Ensure `mini-instapay.com` is added to your `/etc/hosts` if not using a public DNS.
-
+> Ensure `mini-instapay.com` is mapped in `/etc/hosts`:
 ```
 127.0.0.1 mini-instapay.com
 ```
@@ -116,38 +112,49 @@ Ensure `mini-instapay.com` is added to your `/etc/hosts` if not using a public D
 
 ## 📁 Environment Variables
 
-Set appropriate values in the respective `.env` files:
+Set the following variables in the appropriate `.env` files:
 
 ```
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/userdb
-JWT_SECRET=your_jwt_secret
-RABBITMQ_URL=amqp://rabbitmq:5672
+# MongoDB URIs
+MONGO_URI_USER=mongodb://user-mongo:27017/userdb
+MONGO_URI_TRANSACTION=mongodb://transaction-mongo:27017/transactiondb
+MONGO_URI_REPORT=mongodb://report-mongo:27017/reportdb
+MONGO_URI_NOTIFICATION=mongodb://notification-mongo:27017/notificationdb
+
+# RabbitMQ
+RABBITMQ_URL=amqp://rabbitmq
+
+# JWT
+JWT_SECRET=your_jwt_secret_here
 ...
 ```
 
 ---
 
-## 📦 Deployment (Production)
+## 📦 Multi-Environment Configuration
 
-1. Configure `.env.prod`
-2. Use `docker-compose.prod.yml` for production builds:
+Use Docker Compose with environment-specific overrides:
 
 ```bash
-$ docker-compose -f docker-compose.prod.yml up -d --build
-```
+# Development
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
-3. For cloud deployment, adapt the Kubernetes manifests in `k8s/` for your cloud provider (GKE, EKS, etc.)
+# Staging
+docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+
+# Production
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
 
 ---
 
 ## 🔍 Troubleshooting
 
-* **Frontend shows `/undefined/api` URLs?**
-  * Check `VITE_USER_SERVICE_URL` and other env vars in `vite.config.js`
+- **Frontend shows `/undefined/api`?**
+  - Check `VITE_USER_SERVICE_URL` and related variables in `vite.config.js`.
 
-* **Ingress not resolving?**
-  * Make sure `instapay.local` is mapped in `/etc/hosts`
+- **Ingress not working?**
+  - Confirm `mini-instapay.com` is set in `/etc/hosts`.
 
-* **MongoDB or RabbitMQ not connecting?**
-  * Ensure services are properly linked in Docker/K8s and wait for pods to be `Ready`
+- **MongoDB or RabbitMQ connection issues?**
+  - Ensure containers are properly linked and pods are in a `Ready` state.

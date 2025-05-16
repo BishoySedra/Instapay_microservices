@@ -108,9 +108,3 @@ services:
       context: ./client
       args:
         VITE_MODE: production # or development / production
-    environment:
-      - NODE_ENV=production
-      - VITE_USER_SERVICE_URL=${VITE_USER_SERVICE_URL}
-      - VITE_TRANSACTION_SERVICE_URL=${VITE_TRANSACTION_SERVICE_URL}
-      - VITE_REPORT_SERVICE_URL=${VITE_REPORT_SERVICE_URL}
-      - VITE_NOTIFICATION_SERVICE_URL=${VITE_NOTIFICATION_SERVICE_URL}
