@@ -78,8 +78,13 @@ $ cd Instapay_microservices
 # Create .env files (examples provided)
 $ cp .env.dev .env
 
-# Run all services
-$ docker-compose -f docker-compose.dev.yml up --build
+# Run all services with both env files
+$ docker-compose \
+  --env-file .env \
+  -f docker-compose.yml \
+  --env-file .env.dev \
+  -f docker-compose.dev.yml \
+  up --build
 ```
 
 ### Setup (Kubernetes)
@@ -98,13 +103,13 @@ $ ./end-k8s.sh
 
 Once running:
 
-* Frontend: [http://instapay.local](http://instapay.local)
-* APIs: accessible via internal service names or through the Ingress at [http://instapay.local/api](http://instapay.local/api)
+* Frontend: [http://mini-instapay.com](http://mini-instapay.com)
+* APIs: accessible via internal service names or through the Ingress at [http://mini-instapay.com/api](http://instapay.local/api)
 
-Ensure `instapay.local` is added to your `/etc/hosts` if not using a public DNS.
+Ensure `mini-instapay.com` is added to your `/etc/hosts` if not using a public DNS.
 
 ```
-127.0.0.1 instapay.local
+127.0.0.1 mini-instapay.com
 ```
 
 ---
@@ -139,13 +144,10 @@ $ docker-compose -f docker-compose.prod.yml up -d --build
 ## 🔍 Troubleshooting
 
 * **Frontend shows `/undefined/api` URLs?**
-
   * Check `VITE_USER_SERVICE_URL` and other env vars in `vite.config.js`
+
 * **Ingress not resolving?**
-
   * Make sure `instapay.local` is mapped in `/etc/hosts`
+
 * **MongoDB or RabbitMQ not connecting?**
-
   * Ensure services are properly linked in Docker/K8s and wait for pods to be `Ready`
-
----
