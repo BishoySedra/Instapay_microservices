@@ -59,6 +59,28 @@ Instapay_microservices/
 
 ---
 
+## API Documentation
+
+### User Service (Port 3001)
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `GET /api/users/me` - Get user profile
+- `PUT /api/users/update` - Update user balance
+
+### Transaction Service (Port 3002)
+- `POST /api/transaction/send` - Send money
+- `GET /api/transaction` - Get user transactions
+- `GET /api/transaction/:id` - Get transaction by ID
+
+### Report Service (Port 3003)
+- `GET /api/reports/summary` - Get transaction summary
+
+### Notification Service (Port 3004)
+- `GET /api/notifications` - Get user notifications
+- `GET /api/notifications/:id` - Get notification by ID
+
+---
+
 ## 🛠️ Getting Started (Development)
 
 ### Prerequisites
