@@ -81,7 +81,7 @@ Instapay_microservices/
 
 ---
 
-## 🛠️ Getting Started (Development)
+## 🛠️ Getting Started
 
 ### Prerequisites
 
