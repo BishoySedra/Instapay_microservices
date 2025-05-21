@@ -19,7 +19,7 @@ InstaPay is a scalable and modular microservices-based platform designed to enab
 
 ```
 Instapay_microservices/
-├── client/                   # React frontend
+├── client/                  # React frontend
 ├── user-service/            # Authentication and account management
 ├── transaction-service/     # Handles money transfers
 ├── report-service/          # Generates user reports
