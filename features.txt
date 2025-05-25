@@ -1,0 +1,65 @@
+Core Features of InstaPay
+
+1. User Authentication & Account Management
+   - Secure user registration and login
+   - JWT-based authentication
+   - Profile management with balance tracking
+   - Password encryption and security measures
+
+2. Money Transfer System
+   - Real-time peer-to-peer money transfers
+   - Transaction validation and verification
+   - Balance checks and updates
+   - Support for multiple recipients
+   - Transaction history tracking
+
+3. Transaction History & Reporting
+   - Detailed transaction logs
+   - Filtering and sorting capabilities
+   - Transaction status tracking (pending, completed, failed)
+   - Account usage statistics and summaries
+
+4. Real-time Notifications
+   - Instant transfer notifications
+   - Transaction status updates
+   - Account activity alerts
+   - Balance change notifications
+
+5. Admin Dashboard
+   - User management interface
+   - Transaction monitoring
+   - System-wide reporting
+   - User suspension capabilities
+   - Transaction analytics
+
+6. Security Features
+   - Encrypted data transmission
+   - Secure password storage
+   - JWT token authentication
+   - Session management
+   - Input validation and sanitization
+
+7. Account Balance Management
+   - Real-time balance updates
+   - Balance history tracking
+   - Low balance alerts
+   - Balance modification controls
+
+8. Transaction Limits & Controls
+   - Customizable transaction limits
+   - Daily transfer limits
+   - Transaction validation rules
+   - Fraud prevention measures
+
+9. User Interface Features
+   - Responsive design
+   - Intuitive navigation
+   - Real-time updates
+   - Interactive transaction forms
+   - Profile customization
+
+10. Error Handling & Recovery
+    - Transaction rollback capabilities
+    - Error notifications
+    - Failed transaction recovery
+    - System status monitoring
